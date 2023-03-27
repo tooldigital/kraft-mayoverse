@@ -6,6 +6,7 @@ import WebARScene from "./WebARScene";
 import Scene3D from "./Stage3D";
 
 import mediaRecorderComponent from "../module/mediaRecord";
+import {realtimeReflections} from "../module/realtimeReflections";
 import AssetLoader from '../util/AssetLoader';
 
 import Emitter from "../util/Emitter";
@@ -215,9 +216,6 @@ const ARSceneComponent = React.memo(() => {
   return (
     <React.Fragment>
       <canvas ref={canvasRef} id="camerafeed"></canvas>
-
-      {/* computer vision canvas */}
-      <canvas ref={debugCVCanvasRef} id="cvdebugcanvas"></canvas>
     </React.Fragment>
   )
 })
