@@ -1,0 +1,71 @@
+.Loading {
+    position: fixed;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    z-index: 800;
+    background-color: black;
+    overflow: hidden;
+
+    .bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        min-height: 100vh;
+        min-width: 100vw;
+        z-index: 0;
+    }
+
+    ._8thwall_logo {
+        z-index: 2;
+
+        position: fixed;
+        transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+
+        bottom: 25px;
+        left: 50%;
+        width: 160px;
+
+        -webkit-font-smoothing: antialiased;
+        filter: drop-shadow(1px 1px 0px rgba(0, 0, 0, 0.37));
+        -webkit-filter: drop-shadow( 1px 1px 0px rgba(0, 0, 0, 0.37) );
+    }
+
+    .LoadingBar {
+        position: absolute;
+        transform: translate(-50%, -50%) scale(.95);
+        -webkit-transform: translate(-50%, -50%) scale(.95);
+        left: calc(50% - 17px);
+        top: 48%;
+        width: 340px;
+        opacity: 0;
+        .loading_bar {
+            background: black;
+            object-fit: none;
+            height: 91px;
+            width: 290px;
+            position: absolute;
+            overflow: hidden;
+            left: 29px;
+            top: 22px;
+            // clip-path: url(#svgClip);
+            img {
+                position: absolute;
+                top: 0;
+                // left: 100%;
+                transition: left 200ms, opacity 500ms ease-in-out;
+                transform: translateX(-100%);
+                width: 100%;
+            }
+        }
+    }
+}
