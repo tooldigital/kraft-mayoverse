@@ -26,7 +26,7 @@ const WebARScene = () => {
         metalness: 0,
       })
     );
-    cube.position.set(0, 0.3, -2);
+    cube.position.set(0, 0.2, -2);
     cube.castShadow = true;
 
     //scene.add(cube);
