@@ -1,9 +1,9 @@
 import wavemap from "../assets/textures/wavemap.png";
 import distmap from "../assets/textures/distmap.png";
-import envmapDaytime from '../assets/textures/hdr/daytime_panorama_specular.hdr';
-import envmapSunset from '../assets/textures/hdr/sunset_panorama_specular.hdr';
-import envmapNight from '../assets/textures/hdr/night_panorama_specular.hdr';
-import envmapDawn from '../assets/textures/hdr/dawn_panorama_specular.hdr';
+import envmapDaytime from "../assets/textures/hdr/daytime_panorama_specular.hdr";
+import envmapSunset from "../assets/textures/hdr/sunset_panorama_specular.hdr";
+import envmapNight from "../assets/textures/hdr/night_panorama_specular.hdr";
+import envmapDawn from "../assets/textures/hdr/dawn_panorama_specular.hdr";
 
 const RESOURCES = {
   images: [
@@ -13,12 +13,12 @@ const RESOURCES = {
     // { id: 'dust', url: 'static/images/warp/dust.png', description: '' },
   ],
   textures: [
-    { id: 'wavemap', url: wavemap },
-    { id: 'distmap', url: distmap },
-    { id: 'envmap/day', url: envmapDaytime },
-    { id: 'envmap/sunset', url: envmapSunset },
-    { id: 'envmap/night', url: envmapNight },
-    { id: 'envmap/dawn', url: envmapDawn },
+    { id: "wavemap", url: wavemap },
+    { id: "distmap", url: distmap },
+    { id: "envmap/day", url: envmapDaytime },
+    { id: "envmap/sunset", url: envmapSunset },
+    { id: "envmap/night", url: envmapNight },
+    { id: "envmap/dawn", url: envmapDawn },
     // { id: 'uv', url: 'static/textures/uv.jpg' },
     // { id: 'noise-1k', url: 'static/textures/postprocessing/noise-1k.png' },
   ],
@@ -29,11 +29,12 @@ const RESOURCES = {
     // { id: 'microsoft', url: 'videos/menu/test.mp4' },
   ],
   models: [
-    { id: 'hand-r', url: 'model/hand-r-simple.glb', init: true },
-    { id: 'doomdoom', url: 'model/doomdoom.glb', init: true },
-    { id: 'flower_stem', url: 'model/flower_stem.glb', init: true },
-    { id: 'kami_green', url: 'model/kami_green.glb', init: true },
-    { id: 'puppet_bag', url: 'model/puppet_bag.glb', init: true },
+    { id: "hand-r", url: "model/hand-r-simple.glb", init: true },
+    { id: "doomdoom", url: "model/doomdoom.glb", init: true },
+    { id: "flower_stem", url: "model/flower_stem.glb", init: true },
+    { id: "kami_green", url: "model/kami_green.glb", init: true },
+    { id: "puppet_bag", url: "model/puppet_bag.glb", init: true },
+    { id: "mayo", url: "model/mayo.glb", init: true },
     // { id: 'cube', url: 'models/cube/cube2.gltf' },
     // { id: 'instance', url: 'models/testinstance/test.gltf' },
   ],
@@ -49,7 +50,7 @@ const RESOURCES = {
   ],
   fonts: [
     // { id: 'playfairdisplay' }
-  ]
+  ],
 };
 
 export default RESOURCES;
