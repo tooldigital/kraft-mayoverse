@@ -30,12 +30,27 @@ const WebARScene = () => {
     cube.castShadow = true;
 
     //scene.add(cube);
+    // add model
+    window.world = window.AssetLoader.getModel("world").media;
+    window.world.scene.scale.set(80, 80, 80);
+    window.world.scene.position.set(0, -20.0, 0);
+    window.world.scene.rotation.set(0, -1.0, 0);
+    scene.add(window.world.scene);
+
+    window.world.scene.traverse((o) => {
+      if (o.isMesh) {
+        o.recieveShadow = true;
+      }
+    });
 
     // add model
     window.mayoModel = window.AssetLoader.getModel("mayo").media;
     console.log(window.mayoModel);
 
     window.mayoModel.scene.traverse((o) => {
+      if (o.isMesh) {
+        o.castShadow = true;
+      }
       if (o.isMesh && o.material.name === "Mayo") {
         o.material.envMap = window.AssetLoader.getTexture("envmap/dawn").media;
         o.material.clearCoat = 0.5;

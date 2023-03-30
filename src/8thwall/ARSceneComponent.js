@@ -1,33 +1,31 @@
 /* eslint-disable no-undef */
-import React, {useEffect, useRef, useState} from "react"
+import React, { useEffect, useRef, useState } from "react";
 import Global from "../util/Global";
 import threejsPipelineModule from "./threejsPipelineModule";
 import WebARScene from "./WebARScene";
 import Scene3D from "./Stage3D";
 
 import mediaRecorderComponent from "../module/mediaRecord";
-import {realtimeReflections} from "../module/realtimeReflections";
-import AssetLoader from '../util/AssetLoader';
+import { realtimeReflections } from "../module/realtimeReflections";
+import AssetLoader from "../util/AssetLoader";
 
 import Emitter from "../util/Emitter";
-import { ONCAMERAERROR,ONASSETSLOADED } from "../util/constants";
+import { ONCAMERAERROR, ONASSETSLOADED } from "../util/constants";
 import { WebGLRenderer } from "three";
 import RESOURCES from "../util/ResourcesManager";
 
-
-const raf = require('raf')
+const raf = require("raf");
 
 //TODO: SETUP A HANDLE AND INITIALIZATION OF THE SCENE TO ENABLE 3D
 const ARSceneComponent = React.memo(() => {
-
   const rafHandle = useRef();
   const canvasRef = useRef();
   const debugCVCanvasRef = useRef();
   const xrRef = useRef();
-  const [ loaded, setLoaded ] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   // const handTracking = useRef(MediaPipeSingleton);
   // const isInit = useRef(false);
-  const rendererRef = useRef()
+  const rendererRef = useRef();
 
   useEffect(() => {
     rendererRef.current = new WebGLRenderer({
@@ -35,97 +33,100 @@ const ARSceneComponent = React.memo(() => {
       // context: GLctx,
       alpha: false,
       antialias: true,
-    })
+    });
 
     rendererRef.current.AH_YEAH = 1;
 
-    window.AssetLoader = new AssetLoader(rendererRef.current)
+    window.AssetLoader = new AssetLoader(rendererRef.current);
     Emitter.on(ONASSETSLOADED, () => setLoaded(true));
     window.AssetLoader.load(RESOURCES);
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (!loaded) return;
 
     // todo: Refractor this (MotionSensorUI) on a component.
-    let hasMotionEvents_ = false
+    let hasMotionEvents_ = false;
     const motionListener = () => {
-      hasMotionEvents_ = true
-      window.removeEventListener('devicemotion', motionListener)
-    }
-    window.addEventListener('devicemotion', motionListener)
+      hasMotionEvents_ = true;
+      window.removeEventListener("devicemotion", motionListener);
+    };
+    window.addEventListener("devicemotion", motionListener);
 
     const promptUserToChangeBrowserMotionSettings = () => {
-      window.removeEventListener('devicemotion', motionListener)
+      window.removeEventListener("devicemotion", motionListener);
 
       // Device orientation permissions only need to be requested on iOS.
-      if (XR8.XrDevice.deviceEstimate().os !== 'iOS') {
-        return
+      if (XR8.XrDevice.deviceEstimate().os !== "iOS") {
+        return;
       }
 
       // Device orientation permissions only need to be requested if they're required.
       if (XR8.XrPermissions) {
-        const permissions = XR8.XrPermissions.permissions()
-        const requiredPermissions = XR8.requiredPermissions()
-        if (!requiredPermissions.has(permissions.DEVICE_MOTION) &&
-            !requiredPermissions.has(permissions.DEVICE_ORIENTATION)) {
-          return
+        const permissions = XR8.XrPermissions.permissions();
+        const requiredPermissions = XR8.requiredPermissions();
+        if (
+          !requiredPermissions.has(permissions.DEVICE_MOTION) &&
+          !requiredPermissions.has(permissions.DEVICE_ORIENTATION)
+        ) {
+          return;
         }
       }
 
       Emitter.emit(ONCAMERAERROR);
-      XR8.pause()
-      XR8.stop()
-    }
+      XR8.pause();
+      XR8.stop();
+    };
 
     if (Global.ARActive) {
       const onxrloaded = () => {
         xrRef.current = window.XR8;
         window.XR8.XrController.configure({
           disableWorldTracking: false, //Global.debugOnDesktop
-          imageTargets: ['']
-        })
+          imageTargets: [""],
+        });
 
         LandingPage.configure({
-          mediaSrc: 'https://media.giphy.com/media/UIQc7mECaH5nw0Y03Y/giphy.mp4',
-        })
+          mediaSrc:
+            "https://media.giphy.com/media/UIQc7mECaH5nw0Y03Y/giphy.mp4",
+        });
 
-        window.XR8.addCameraPipelineModules([  // Add camera pipeline modules.
+        window.XR8.addCameraPipelineModules([
+          // Add camera pipeline modules.
           // Existing pipeline modules.
-          XR8.CameraPixelArray.pipelineModule(),       // provides the camera texture as an array of RGBA for computer vision
-          XR8.GlTextureRenderer.pipelineModule(),      // Draws the camera feed.
-          threejsPipelineModule(rendererRef.current),                     // Custom Threejs renderer configuration
-          XR8.MediaRecorder.pipelineModule(),          // 8thwall recording module
-          mediaRecorderComponent(),                    // recording handler
-          realtimeReflections(),                       // Enables Realtime reflections
-          XR8.XrController.pipelineModule(),           // Enables SLAM tracking.
-          LandingPage.pipelineModule(),                // Detects unsupported browsers and gives hints.
-          XRExtras.FullWindowCanvas.pipelineModule(),  // Modifies the canvas to fill the window.
-          XRExtras.Loading.pipelineModule(),           // Manages the loading screen on startup.
-          XRExtras.RuntimeError.pipelineModule(),      // Shows an error image on runtime error.
-          WebARScene(),                                // actual 3D scene
+          XR8.CameraPixelArray.pipelineModule(), // provides the camera texture as an array of RGBA for computer vision
+          XR8.GlTextureRenderer.pipelineModule(), // Draws the camera feed.
+          threejsPipelineModule(rendererRef.current), // Custom Threejs renderer configuration
+          XR8.MediaRecorder.pipelineModule(), // 8thwall recording module
+          mediaRecorderComponent(), // recording handler
+          realtimeReflections(), // Enables Realtime reflections
+          XR8.XrController.pipelineModule(), // Enables SLAM tracking.
+          LandingPage.pipelineModule(), // Detects unsupported browsers and gives hints.
+          XRExtras.FullWindowCanvas.pipelineModule(), // Modifies the canvas to fill the window.
+          XRExtras.Loading.pipelineModule(), // Manages the loading screen on startup.
+          XRExtras.RuntimeError.pipelineModule(), // Shows an error image on runtime error.
+          WebARScene(), // actual 3D scene
           // ...                                       // extra 3D scenes.
 
           // Custom handlers for camera permission pipeline, permission, first render, permission denegated
           // todo: make this into a component/module
           {
-            name: 'customCameraErrorHandle',
+            name: "customCameraErrorHandle",
             onStart: () => {
               if (hasMotionEvents_ !== true) {
-                promptUserToChangeBrowserMotionSettings()
+                promptUserToChangeBrowserMotionSettings();
               }
             },
-            onCameraStatusChange: ({status}) => {
-              if (status === 'hasStream') {
-
-              } else if (status === 'hasVideo') {
+            onCameraStatusChange: ({ status }) => {
+              if (status === "hasStream") {
+              } else if (status === "hasVideo") {
                 // if(!isInit.current){
                 //   isInit.current = true
                 //   setTimeout(() => {
                 //     handTracking.current.init()
                 //   }, 300);
                 // }
-              } else if (status === 'failed') {
+              } else if (status === "failed") {
                 Emitter.emit(ONCAMERAERROR);
                 console.log(ONCAMERAERROR);
                 // dataLayer?.push({
@@ -137,12 +138,15 @@ const ARSceneComponent = React.memo(() => {
               }
             },
             onException: (error) => {
-              console.log(error)
-              if (error.type === 'permission') {
-                console.log(error.permission)
-                if (error.permission === 'prompt' ||
-                    error.permission === XR8.XrPermissions.permissions().DEVICE_ORIENTATION) {
-                  console.log(2)
+              console.log(error);
+              if (error.type === "permission") {
+                console.log(error.permission);
+                if (
+                  error.permission === "prompt" ||
+                  error.permission ===
+                    XR8.XrPermissions.permissions().DEVICE_ORIENTATION
+                ) {
+                  console.log(2);
                   console.log(ONCAMERAERROR);
                   Emitter.emit(ONCAMERAERROR);
                   // dataLayer?.push({
@@ -151,21 +155,19 @@ const ARSceneComponent = React.memo(() => {
                   //   'eventAction' : 'ar',
                   //   'eventLabel' : 'cameraAndPhonePermissions__false'
                   // })
-                  return
+                  return;
                 }
               }
-
-            }
+            },
           },
-        ])
-        window.XR8.run({ canvas: canvasRef.current, verbose: true }) //use threejs pipeline canvas
-
-      }
+        ]);
+        window.XR8.run({ canvas: canvasRef.current, verbose: true }); //use threejs pipeline canvas
+      };
       // window.onload = () => { window.XRExtras ? load() : window.addEventListener('xrextrasloaded', load) }
-      if(window.XRExtras){
-        XRExtras.Loading.showLoading({ onxrloaded })
-        const loadImage = document.getElementById("loadingContainer")
-        const AppRoot = document.querySelector(".App")
+      if (window.XRExtras) {
+        XRExtras.Loading.showLoading({ onxrloaded });
+        const loadImage = document.getElementById("loadingContainer");
+        const AppRoot = document.querySelector(".App");
 
         if (loadImage) {
           AppRoot.appendChild(loadImage);
@@ -188,21 +190,22 @@ const ARSceneComponent = React.memo(() => {
       });
 
       Scene3D.renderer.setPixelRatio(window.devicePixelRatio || 1);
+      Scene3D.renderer.shadowMap.enabled = true;
+      Scene3D.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
       console.log("Start!");
 
-
       rafHandle.current = raf(function tick() {
-        Scene3D.preRender()
+        Scene3D.preRender();
         // Animation logic
-        Scene3D.render()
-        raf(tick)
-      })
+        Scene3D.render();
+        raf(tick);
+      });
     }
 
     // Cleanup
     return () => {
-      raf.cancel(rafHandle.current)
+      raf.cancel(rafHandle.current);
       // on cleanup stop AR, not needed when starting component from begining.
 
       // if (Global.ARActive || window.XR8) {
@@ -210,13 +213,13 @@ const ARSceneComponent = React.memo(() => {
       //   xrRef.current.stop()
       //   xrRef.current.clearCameraPipelineModules()
       // }
-    }
-  }, [loaded])
+    };
+  }, [loaded]);
 
   return (
     <React.Fragment>
       <canvas ref={canvasRef} id="camerafeed"></canvas>
     </React.Fragment>
-  )
-})
+  );
+});
 export default ARSceneComponent;
