@@ -98,7 +98,7 @@ const ARSceneComponent = React.memo(() => {
           XR8.GlTextureRenderer.pipelineModule(), // Draws the camera feed.
           threejsPipelineModule(rendererRef.current), // Custom Threejs renderer configuration
           XR8.MediaRecorder.pipelineModule(), // 8thwall recording module
-          mediaRecorderComponent(), // recording handler
+          //mediaRecorderComponent(), // recording handler
           realtimeReflections(), // Enables Realtime reflections
           XR8.XrController.pipelineModule(), // Enables SLAM tracking.
           LandingPage.pipelineModule(), // Detects unsupported browsers and gives hints.
@@ -189,9 +189,9 @@ const ARSceneComponent = React.memo(() => {
         canvas: canvasRef.current,
       });
 
-      Scene3D.renderer.setPixelRatio(window.devicePixelRatio || 1);
-      Scene3D.renderer.shadowMap.enabled = true;
-      Scene3D.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      rendererRef.current.setPixelRatio(window.devicePixelRatio || 1);
+      rendererRef.current.shadowMap.enabled = true;
+      rendererRef.current.shadowMap.type = THREE.PCFSoftShadowMap;
 
       console.log("Start!");
 

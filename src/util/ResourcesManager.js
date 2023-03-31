@@ -34,7 +34,11 @@ const RESOURCES = {
     // { id: "flower_stem", url: "model/flower_stem.glb", init: true },
     // { id: "kami_green", url: "model/kami_green.glb", init: true },
     // { id: "puppet_bag", url: "model/puppet_bag.glb", init: true },
-    { id: "world", url: "model/Island_v005_GLB_export.glb", init: true },
+    {
+      id: "world",
+      url: "model/Island_v002_GLB_export_v002_NO_SHADOW.glb",
+      init: true,
+    },
     { id: "mayo", url: "model/mayo.glb", init: true },
     // { id: 'cube', url: 'models/cube/cube2.gltf' },
     // { id: 'instance', url: 'models/testinstance/test.gltf' },

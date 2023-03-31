@@ -87,7 +87,7 @@ const WebARScene = () => {
     // Add basic lightning
     scene.add(new THREE.AmbientLight(0x404040, 0.1));
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    directionalLight.position.set(5, 10, 7);
+    directionalLight.position.set(5, 20, -5);
     directionalLight.castShadow = true;
     scene.add(directionalLight);
 
@@ -112,7 +112,7 @@ const WebARScene = () => {
       if (!cube.visible) {
         // alert('found')
       }
-      cube.visible = true;
+      //cube.visible = true;
 
       // Emitter.emit("marker_found", detail.name);
     }
