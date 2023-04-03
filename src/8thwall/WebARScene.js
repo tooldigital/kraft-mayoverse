@@ -146,6 +146,15 @@ const WebARScene = () => {
       event.preventDefault();
     });
 
+    window.XR8.LayersController.configure({
+      coordinates: {
+        origin: {
+          position: camera.position,
+          rotation: camera.quaternion,
+        },
+      },
+    });
+
     // Sync the xr controller's 6DoF position and camera paremeters with our scene.
     window.XR8.XrController.updateCameraProjectionMatrix({
       origin: camera.position,
